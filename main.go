@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	start := time.Now()
-	fmt.Println("Launching...")
+	startMain := time.Now()
+	fmt.Println(">> Launching...")
 
 	t := trie.New()
 
@@ -19,28 +19,30 @@ func main() {
 		return
 	}
 
+	fmt.Printf(">> Loaded default dictionary (%v words) in %v milliseconds \n", len(dict), time.Now().Sub(startMain).Milliseconds())
+	startFill := time.Now()
+
 	err = t.Fill(dict)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println("Filled trie with default dictionary in", time.Now().Sub(start).Seconds(), "seconds")
-	fmt.Println("Default dictionary has", len(dict), "words")
+	fmt.Printf(">> Filled trie with default dictionary (%v words) in %v milliseconds \n", len(dict), time.Now().Sub(startFill).Milliseconds())
+	startComplete := time.Now()
 
-	input := "z"
-	maxResults := 10
+	input := "r"
+	limit := 50
+	res, err := t.Complete(input, limit)
 
-	res, err := t.Complete(input, maxResults)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println(">> Error:", err)
 		return
 	}
+
+	fmt.Printf(">> Found %v possible results in %v milliseconds\n", len(res), time.Now().Sub(startComplete).Milliseconds())
 
 	if res != nil {
-		fmt.Println(len(res), "results:", res)
-		return
+		fmt.Printf(">> %v results for \"%v\" \n%v \n", len(res), input, res)
 	}
-
-	fmt.Println("Done in", time.Now().Sub(start).Seconds(), "seconds")
 }

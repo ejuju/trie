@@ -30,7 +30,7 @@ var CharToIndex = initCharToIndex(Alphabet)
 // IndexToChar converts an index to the corresponding character of the alphabet
 var IndexToChar = initIndexToChar(Alphabet)
 
-//
+// initCharToIndex converts the given alphabet to a map of rune to int where the rune is the character and the int is the index of the char going from 0 to len(alphabet)-1
 func initCharToIndex(alphabet string) map[rune]int {
 	result := map[rune]int{}
 	for i, c := range alphabet {
@@ -39,7 +39,7 @@ func initCharToIndex(alphabet string) map[rune]int {
 	return result
 }
 
-//
+// initIndexToChar converts the given alphabet to a mep of rune to int where the rune is the character and the int is the index of the char going from 0 to len(alphabet)-1
 func initIndexToChar(alphabet string) map[int]rune {
 	result := map[int]rune{}
 	for i, c := range alphabet {
@@ -101,20 +101,14 @@ func (t *Trie) Complete(str string, limit int) ([]string, error) {
 		return nil, err
 	}
 
-	var results []string
-	var resCh = make(chan string, limit)
-
-	go searchRec(startNode, str, limit, resCh)
-
-	for i := 0; i < limit; i++ {
-		res := <-resCh
-		results = append(results, res)
-	}
-
-	return results, nil
+	var out []string
+	searchRec(startNode, "", &out)
+	sortByLength(out)
+	out = limitResults(limit, out)
+	return out, nil
 }
 
-func searchRec(root *Node, prefix string, limit int, results chan string) {
+func searchRec(root *Node, prefix string, results *[]string) {
 	if root == nil {
 		return
 	}
@@ -127,10 +121,10 @@ func searchRec(root *Node, prefix string, limit int, results chan string) {
 		}
 
 		if node.IsEnd {
-			results <- newStr
+			*results = append(*results, newStr)
 		}
 
-		go searchRec(node, newStr, limit, results)
+		searchRec(node, newStr, results)
 	}
 }
 
@@ -167,7 +161,7 @@ func (t *Trie) Fill(in []string) error {
 // DefaultDictionary returns a list of strings to fill the trie with
 // Words come from the following list: https://github.com/dwyl/english-words/blob/master/words_dictionary.json which contains around 300K words
 func DefaultDictionary() ([]string, error) {
-	f, err := os.Open("./pkg/trie/words_dictionary.json")
+	f, err := os.Open("./pkg/trie/dictionary.json")
 	if err != nil {
 		return nil, err
 	}
