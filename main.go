@@ -29,7 +29,7 @@ func main() {
 	fmt.Println("Default dictionary has", len(dict), "words")
 
 	input := "z"
-	maxResults := 1000
+	maxResults := 10
 
 	res, err := t.Complete(input, maxResults)
 	if err != nil {
