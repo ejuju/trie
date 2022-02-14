@@ -1,6 +1,8 @@
 package text
 
-import "errors"
+import (
+	"errors"
+)
 
 // Trie is a data structure that stores characters (helpful for autocompletion)
 type Trie struct {
@@ -28,10 +30,12 @@ func NewTrie(strs ...string) (*Trie, error) {
 func (t *Trie) addString(str string) error {
 	currNode := t.Root
 	for _, c := range str {
+
 		index, ok := t.charToIndex(c)
 		if ok == false {
-			continue
+			return errors.New("unable to find index of character: \"" + string(c) + "\"")
 		}
+
 		if currNode.Children[index] == nil {
 			currNode.Children[index] = &TrieNode{} // add node for this char if not defined yet
 		}

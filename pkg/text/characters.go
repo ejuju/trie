@@ -17,16 +17,13 @@ const (
 func (t *Trie) fill(in []string) error {
 	var err error
 
-	for _, str := range in {
-		for _, c := range str {
-			if strings.ContainsRune(t.Chars, c) {
-				continue
-			}
-			t.Chars += string(c)
-		}
-	}
-
 	for _, s := range in {
+		for _, c := range s {
+			if !strings.ContainsRune(t.Chars, c) {
+				t.Chars += string(c)
+			}
+		}
+
 		err = t.addString(s)
 		if err != nil {
 			return err
