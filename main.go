@@ -4,36 +4,35 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ejuju/trie-implementation-autocomplete/pkg/trie"
+	"github.com/ejuju/trie-implementation-autocomplete/pkg/text"
 )
 
 func main() {
 	startMain := time.Now()
 	fmt.Println(">> Launching...")
 
-	t := trie.New()
-
-	dict, err := trie.DefaultDictionary()
+	strs, err := text.Load(text.FrenchWords, text.EnglishWords)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Printf(">> Loaded default dictionary (%v words) in %v milliseconds \n", len(dict), time.Now().Sub(startMain).Milliseconds())
+	fmt.Printf(">> Loaded %v strings in %v milliseconds \n", len(strs), time.Now().Sub(startMain).Milliseconds())
 	startFill := time.Now()
 
-	err = t.Fill(dict)
+	trie, err := text.NewTrie(strs)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Printf(">> Filled trie with default dictionary (%v words) in %v milliseconds \n", len(dict), time.Now().Sub(startFill).Milliseconds())
+	fmt.Printf(">> Initiated trie in %v milliseconds \n", time.Now().Sub(startFill).Milliseconds())
+
 	startComplete := time.Now()
 
-	input := "r"
+	input := "a"
 	limit := 50
-	res, err := t.Complete(input, limit)
+	res, err := trie.Complete(input, limit)
 
 	if err != nil {
 		fmt.Println(">> Error:", err)
