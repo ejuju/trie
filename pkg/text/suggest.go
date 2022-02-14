@@ -1,12 +1,11 @@
 package text
 
 import (
-	"errors"
 	"sort"
 )
 
-// Complete returns a list of strings that could be the end of the given input
-func (t *Trie) Complete(str string, limit int) ([]string, error) {
+// Suggest returns a list of strings that could be the end of the given input
+func (t *Trie) Suggest(str string, limit int) ([]string, error) {
 	startNode, err := getLastNode(t, str)
 	if err != nil {
 		return nil, err
@@ -40,27 +39,6 @@ func (t *Trie) getSuggestions(root *TrieNode, prefix string, results *[]string) 
 
 		t.getSuggestions(node, newStr, results)
 	}
-}
-
-// getLastNode returns the last node (= the last character) for a given string
-func getLastNode(t *Trie, str string) (*TrieNode, error) {
-	currNode := t.Root
-
-	for i := 0; i < len(str); i++ {
-		currChar := rune(str[i])
-		charIndex, ok := t.charToIndex(currChar)
-		if ok == false {
-			return nil, errors.New("unable to get index for character " + string(currChar))
-		}
-
-		if currNode.Children[charIndex] == nil {
-			return nil, errors.New("unable to find last node of string, the provided string is not defined in the trie")
-		}
-
-		currNode = currNode.Children[charIndex] // update current node to match current char
-	}
-
-	return currNode, nil
 }
 
 func limitResults(limit int, results []string) []string {

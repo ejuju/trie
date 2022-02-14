@@ -20,7 +20,7 @@ func main() {
 	fmt.Printf(">> Loaded %v strings in %v milliseconds \n", len(strs), time.Now().Sub(startMain).Milliseconds())
 	startFill := time.Now()
 
-	trie, err := text.NewTrie(strs)
+	trie, err := text.NewTrie(strs...)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -32,7 +32,7 @@ func main() {
 
 	input := "a"
 	limit := 50
-	res, err := trie.Complete(input, limit)
+	res, err := trie.Suggest(input, limit)
 
 	if err != nil {
 		fmt.Println(">> Error:", err)

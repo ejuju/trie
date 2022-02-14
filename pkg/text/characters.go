@@ -6,7 +6,8 @@ import (
 	"strings"
 )
 
-const NumPossibleChars = 256
+//
+const MaxChildrenPerNode = 256
 
 // Words for various languages
 const (

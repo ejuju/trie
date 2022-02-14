@@ -1,5 +1,7 @@
 package text
 
+import "errors"
+
 // Trie is a data structure that stores characters (helpful for autocompletion)
 type Trie struct {
 	Root  *TrieNode
@@ -8,12 +10,12 @@ type Trie struct {
 
 // TrieNode represents a character in the trie data structure
 type TrieNode struct {
-	Children [NumPossibleChars]*TrieNode
+	Children [MaxChildrenPerNode]*TrieNode
 	IsEnd    bool // IsEnd == true means that this is the last letter of a word
 }
 
 // NewTrie is a helper function to easily create a new trie
-func NewTrie(strs []string) (*Trie, error) {
+func NewTrie(strs ...string) (*Trie, error) {
 	t := &Trie{
 		Root: &TrieNode{},
 	}
@@ -49,4 +51,25 @@ func (n *TrieNode) hasChildren() bool {
 		}
 	}
 	return out
+}
+
+// getLastNode returns the last node (= the last character) for a given string
+func getLastNode(t *Trie, str string) (*TrieNode, error) {
+	currNode := t.Root
+
+	for i := 0; i < len(str); i++ {
+		currChar := rune(str[i])
+		charIndex, ok := t.charToIndex(currChar)
+		if ok == false {
+			return nil, errors.New("unable to get index for character " + string(currChar))
+		}
+
+		if currNode.Children[charIndex] == nil {
+			return nil, errors.New("unable to find last node of string, the provided string is not defined in the trie")
+		}
+
+		currNode = currNode.Children[charIndex] // update current node to match current char
+	}
+
+	return currNode, nil
 }
