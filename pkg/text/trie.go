@@ -20,7 +20,7 @@ func NewTrie(strs ...string) (*Trie, error) {
 		Root: &TrieNode{},
 	}
 
-	err := t.Fill(strs)
+	err := t.fill(strs)
 	return t, err
 }
 

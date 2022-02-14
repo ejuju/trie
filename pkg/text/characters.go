@@ -1,8 +1,6 @@
 package text
 
 import (
-	"encoding/json"
-	"os"
 	"strings"
 )
 
@@ -15,32 +13,8 @@ const (
 	FrenchWords  = "words_fr.json" // src: https://github.com/words/an-array-of-french-words
 )
 
-// Load returns a list of words to fill the trie with
-func Load(filepaths ...string) ([]string, error) {
-	var out []string
-
-	pathPrefix := "./pkg/text/"
-
-	for _, fp := range filepaths {
-		f, err := os.Open(pathPrefix + fp)
-		if err != nil {
-			return nil, err
-		}
-
-		var words []string
-		err = json.NewDecoder(f).Decode(&words)
-		if err != nil {
-			return nil, err
-		}
-
-		out = append(out, words...)
-	}
-
-	return out, nil
-}
-
 // Fill is utility function that wraps t.Add() to add a list of strings to the trie
-func (t *Trie) Fill(in []string) error {
+func (t *Trie) fill(in []string) error {
 	var err error
 
 	for _, str := range in {
