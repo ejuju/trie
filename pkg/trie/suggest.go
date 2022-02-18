@@ -1,4 +1,4 @@
-package text
+package trie
 
 import (
 	"sort"
@@ -21,7 +21,7 @@ func (t *Trie) Suggest(str string, limit int) ([]string, error) {
 	return out, nil
 }
 
-func (t *Trie) getSuggestions(root *TrieNode, prefix string, results *[]string) {
+func (t *Trie) getSuggestions(root *Node, prefix string, results *[]string) {
 	if root == nil {
 		return
 	}

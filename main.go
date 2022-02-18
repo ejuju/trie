@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ejuju/trie-implementation-autocomplete/pkg/text"
+	"github.com/ejuju/trie-implementation-autocomplete/pkg/trie"
 )
 
 func main() {
 	startMain := time.Now()
 	fmt.Println(">> Launching...")
 
-	strs, err := text.Load(text.FrenchWords, text.EnglishWords)
+	strs, err := trie.Load(trie.FrenchWords, trie.EnglishWords)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -20,7 +20,7 @@ func main() {
 	fmt.Printf(">> Loaded %v strings in %v milliseconds \n", len(strs), time.Now().Sub(startMain).Milliseconds())
 	startFill := time.Now()
 
-	trie, err := text.NewTrie(strs...)
+	t, err := trie.New(strs...)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -32,7 +32,7 @@ func main() {
 
 	input := "a"
 	limit := 50
-	res, err := trie.Suggest(input, limit)
+	res, err := t.Suggest(input, limit)
 
 	if err != nil {
 		fmt.Println(">> Error:", err)

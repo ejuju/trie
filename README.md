@@ -11,5 +11,6 @@
 
 ## Backlog
 
-- Add weights to words (to show most frequent words first in auto-complete results)
 - Support importing custom dictionaries via files (.json and .txt)
+- Make this a CLI tool
+- Make this a web server where clients can get auto-complete features via websocket
