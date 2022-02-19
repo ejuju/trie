@@ -1,3 +1,3 @@
-module github.com/ejuju/trie-implementation-autocomplete
+module github.com/ejuju/trie
 
 go 1.17
