@@ -9,7 +9,7 @@ import (
 func Load(filepaths ...string) ([]string, error) {
 	var out []string
 
-	pathPrefix := "./pkg/text/"
+	pathPrefix := "./words/"
 
 	for _, fp := range filepaths {
 		f, err := os.Open(pathPrefix + fp)

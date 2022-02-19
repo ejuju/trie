@@ -1,16 +1,14 @@
-package trie_test
+package trie
 
 import (
 	"fmt"
 	"testing"
 	"time"
-
-	"github.com/ejuju/trie-implementation-autocomplete/pkg/text"
 )
 
 //
 func TestLoad(t *testing.T) {
-	strs, err := text.Load("test.json")
+	strs, err := Load("test.json")
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -18,7 +16,7 @@ func TestLoad(t *testing.T) {
 	}
 
 	if len(strs) != 1 {
-		t.Log("result from text.Load(\"test.json\") should be of length 1")
+		t.Log("result from trie.Load(\"test.json\") should be of length 1")
 		t.Fail()
 		return
 	}
@@ -27,7 +25,7 @@ func TestLoad(t *testing.T) {
 func TestNewTrie(t *testing.T) {
 	uniqueChars := "abcdefghiklmnopqrstuvwxyz0123456789- " // all characters in this string should be unique
 
-	trie, err := text.NewTrie(uniqueChars)
+	trie, err := New(uniqueChars)
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -42,7 +40,7 @@ func TestNewTrie(t *testing.T) {
 }
 
 func TestSuggest(t *testing.T) {
-	trie, err := text.NewTrie("a", "b", "abba")
+	trie, err := New("a", "b", "abba")
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -78,7 +76,7 @@ func TestLong(t *testing.T) {
 	fmt.Printf(">> Loaded %v strings in %v milliseconds \n", len(strs), time.Now().Sub(startMain).Milliseconds())
 	startFill := time.Now()
 
-	t, err := New(strs...)
+	trie, err := New(strs...)
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -91,7 +89,7 @@ func TestLong(t *testing.T) {
 
 	input := "a"
 	limit := 50
-	res, err := t.Suggest(input, limit)
+	res, err := trie.Suggest(input, limit)
 
 	if err != nil {
 		t.Log(">> Error:", err)
