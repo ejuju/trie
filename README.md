@@ -1,1 +1,1 @@
-# Simple trie implementation in Golang for auto-completion or word checking
+# Simple trie implementation in Golang for auto-completion and word checking
