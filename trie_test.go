@@ -47,12 +47,7 @@ func TestSuggest(t *testing.T) {
 		return
 	}
 
-	res, err := trie.Suggest("", 1)
-	if err != nil {
-		t.Log(err)
-		t.Fail()
-		return
-	}
+	res := trie.Suggest("", 1)
 	if len(res) != 1 {
 		t.Log("trie.Suggest() should have returned 1 result")
 		t.Fail()
@@ -90,13 +85,7 @@ func TestLong(t *testing.T) {
 
 	input := "a"
 	limit := 50
-	res, err := trie.Suggest(input, limit)
-
-	if err != nil {
-		t.Log(">> Error:", err)
-		t.Fail()
-		return
-	}
+	res := trie.Suggest(input, limit)
 
 	fmt.Printf(">> Found %v possible results in %v milliseconds\n", len(res), time.Now().Sub(startComplete).Milliseconds())
 

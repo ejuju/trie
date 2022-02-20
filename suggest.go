@@ -5,10 +5,10 @@ import (
 )
 
 // Suggest returns a list of strings that could be the end of the given input
-func (t *Trie) Suggest(str string, limit int) ([]string, error) {
+func (t *Trie) Suggest(str string, limit int) []string {
 	startNode, err := getLastNode(t, str)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	var out []string
@@ -18,7 +18,7 @@ func (t *Trie) Suggest(str string, limit int) ([]string, error) {
 	out = limitResults(limit, out)
 	sortByLength(out)
 
-	return out, nil
+	return out
 }
 
 func (t *Trie) getSuggestions(root *Node, prefix string, results *[]string) {
