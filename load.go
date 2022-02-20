@@ -6,10 +6,8 @@ import (
 )
 
 // Load returns a list of words to fill the trie with
-func Load(filepaths ...string) ([]string, error) {
+func Load(pathPrefix string, filepaths ...string) ([]string, error) {
 	var out []string
-
-	pathPrefix := "./words/"
 
 	for _, fp := range filepaths {
 		f, err := os.Open(pathPrefix + fp)

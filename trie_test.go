@@ -8,7 +8,7 @@ import (
 
 //
 func TestLoad(t *testing.T) {
-	strs, err := Load("test.json")
+	strs, err := Load("./words/", "test.json")
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -16,7 +16,7 @@ func TestLoad(t *testing.T) {
 	}
 
 	if len(strs) != 1 {
-		t.Log("result from trie.Load(\"test.json\") should be of length 1")
+		t.Log("result from trie.Load(\"./words/\", \"test.json\") should be of length 1")
 		t.Fail()
 		return
 	}
@@ -66,7 +66,7 @@ func TestLong(t *testing.T) {
 	startMain := time.Now()
 	fmt.Println(">> Launching...")
 
-	strs, err := Load(FrenchWords, EnglishWords)
+	strs, err := Load("./words/", FrenchWords, EnglishWords)
 	if err != nil {
 		t.Log(err)
 		t.Fail()
