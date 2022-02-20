@@ -10,8 +10,8 @@ const MaxChildrenPerNode = 256
 
 // Words for various languages
 const (
-	EnglishWords = "words_en.json" // src: https://github.com/words/an-array-of-english-words
-	FrenchWords  = "words_fr.json" // src: https://github.com/words/an-array-of-french-words
+	englishWords = "words_en.json" // src: https://github.com/words/an-array-of-english-words
+	frenchWords  = "words_fr.json" // src: https://github.com/words/an-array-of-french-words
 )
 
 // fill is utility function that wraps t.Add() to add a list of strings to the trie

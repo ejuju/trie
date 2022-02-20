@@ -66,7 +66,7 @@ func TestLong(t *testing.T) {
 	startMain := time.Now()
 	fmt.Println(">> Launching...")
 
-	strs, err := Load("./words/", FrenchWords, EnglishWords)
+	strs, err := Load("./words/", frenchWords, englishWords)
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -83,6 +83,7 @@ func TestLong(t *testing.T) {
 		return
 	}
 
+	fmt.Printf(">> Found %v possible characters in input text: \"%v\"\n", len(trie.Chars), trie.Chars)
 	fmt.Printf(">> Initiated trie in %v milliseconds \n", time.Now().Sub(startFill).Milliseconds())
 
 	startComplete := time.Now()
